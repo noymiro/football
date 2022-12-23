@@ -1,4 +1,4 @@
-function BestScroingPage () {
+function TheLeadingScorers () {
     return(
         <div>
             BestScroingPage
@@ -6,4 +6,4 @@ function BestScroingPage () {
     )
 }
 
-export default BestScroingPage;
+export default TheLeadingScorers;

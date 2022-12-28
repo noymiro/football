@@ -8,6 +8,8 @@ import HistoryPage from "./HistoryPage";
 import StatisticsPage from "./StatisticsPage";
 
 
+
+
 // const apiToken = "p0uG2AMTEGPaZVZ3O0eQRxRnbh46QY2gCYtI0ie2ryqjf9yFMG552X6UZXyc"
 
 const navLinkStyle = ({isActive}) => isActive ? {

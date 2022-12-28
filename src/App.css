@@ -117,3 +117,38 @@ td[id = "location"]{
     left: 0;
     z-index: 100;
 }
+/*table[id = "leagueTab"]{*/
+/*    margin: 0 auto;*/
+/*    border-spacing: 0px 0px;*/
+/*    width: 740px;*/
+/*    height: 50px;*/
+/*    background-color: dimgrey;*/
+/*    border-bottom: 1px solid #ccc;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    z-index: 100;*/
+/*}*/
+table[id = "leagueTab"] {
+    border-collapse: collapse;
+    width: 740px;
+    margin: 0 auto;
+}
+
+/* Define the style for the table cells */
+td, th {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+/* Define the style for the table header cells */
+th {
+    background-color: lightgray;
+    font-weight: bold;
+}
+
+/* Define the style for the table row */
+tr:nth-child(even) {
+    background-color: lightyellow;
+}
+
+

@@ -2,8 +2,7 @@ import react from "react";
 import React from "react";
 import axios from "axios";
 import TeamPlayers from "./TeamPlayers";
-// import TablesPage from "./TablesPage";
-
+import HistoryGames from "./HistoryGames";
 const api = "https://app.seker.live/fm1"
 
 
@@ -76,7 +75,10 @@ class LeagueTable extends React.Component {
                                     <td>
                                         <button onClick={() => this.changeIdTeamAndIdLeague(team)}> Show players team
                                         </button>
+                                        <button onClick={() => this.changeIdTeamAndIdLeague(team)}> Show history games
+                                        </button>
                                     </td>
+                                    {/*אפשר לשחק עם השורות והעמודות בטבלה כדי להציג את זה לצד הכיתוב ולא מתחת*/}
 
 
                                 </tr>
@@ -87,6 +89,7 @@ class LeagueTable extends React.Component {
                 </table>
 
                 <TeamPlayers idLeague={this.state.idLeague} idTeam={this.state.idTeam} />
+                <HistoryGames idLeague={this.state.idLeague} idTeam={this.state.idTeam} />
 
             </div>
         )

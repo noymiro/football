@@ -1,6 +1,8 @@
-import React  from "react";
+import React from "react";
 import axios from "axios";
 import TablesPage from "./TablesPage";
+
+const api = "https://app.seker.live/fm1"
 
 class HistoryGames extends React.Component {
     state = {
@@ -9,12 +11,21 @@ class HistoryGames extends React.Component {
         awayTeams: 0,
     }
 
+    constructor(props) {
+        super(props);
+    }
+
     // componentDidMount() {
     //     this.historyGamesApi();
     // }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.idTeam !== prevProps.idTeam) {
+            this.historyGamesApi();
+        }
+    }
 
-    historyGamesApi = (leagueId, teamId) => {
-        axios.get(TablesPage.api + "/history/" + leagueId + "/" + teamId)
+    historyGamesApi = () => {
+        axios.get(api + "/history/" + this.props.idLeague + "/" + this.props.idTeam)
             .then(response => {
                     this.setState({
                         historyGames: response.data,
@@ -24,6 +35,28 @@ class HistoryGames extends React.Component {
         console.log(this.state.historyGames + " score")
 
     }
+    checkIfTheHomeGoalsAreTrueOrFalse = (team) => {
+        team.goals.map((goal) => {
+            console.log(goal.home + " goal.home")
+            if (goal.home === true) {
+                this.setState({
+                    homeTeams: this.state.homeTeams + 1
+                }
+                )
+
+            } else if (goal.home === false) {
+                this.setState({
+                    awayTeams: this.state.awayTeams + 1
+                }
+                )
+            }
+        })
+        return (
+            <td>{this.state.homeTeams} - {this.state.awayTeams}</td>
+        )
+    }
+
+
     render() {
         return (
             <div>
@@ -38,8 +71,9 @@ class HistoryGames extends React.Component {
                         return (
                             <tr>
                                 <td>{team.homeTeam.name}</td>
-                                {team.goals.home === true ? <td>{this.state.homeTeams + 1}</td> : <td>{this.state.homeTeams}</td>}
+                                {this.checkIfTheHomeGoalsAreTrueOrFalse(team)}
                                 <td>{team.awayTeam.name}</td>
+
                             </tr>
                         )
                     })}
@@ -48,4 +82,5 @@ class HistoryGames extends React.Component {
         );
     }
 }
+
 export default HistoryGames;

@@ -21,20 +21,18 @@ class TeamPlayers extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         console.log(this.props.idTeam + "? idTeam " + this.props.idLeague + "? idLeague");
         if (this.props.idTeam !== prevProps.idTeam) {
-            console.log(" start componentDidUpdate");
             this.teamPlayersApi();
         }
     }
 
-    teamPlayersApi = () => {
-        console.log(this.props.idLeague + "," + this.props.idTeam + " teamPlayersApi");
-        axios.get(api + "/squad/" + this.props.idLeague + "/" + this.props.idTeam)
-            .then(response => {
-                    this.setState({
-                        teamPlayers: response.data
-                    })
-                }
-            )
+    teamPlayersApi = async () => {
+        console.log(this.props.idLeague + " idLeague");
+        console.log(this.props.idTeam + " idTeam");
+        const response = await axios.get(api + "/squad/" + this.props.idLeague + "/" + this.props.idTeam);
+        this.setState({
+            teamPlayers: response.data
+
+        })
 
     }
 

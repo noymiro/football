@@ -49,6 +49,7 @@ class LeagueTable extends React.Component {
     changeIdTeamAndIdLeague = (team) => {
         console.log(team.id + " item !" + this.props.id + " idLeague !");
         this.setState({
+            ...this.state,
             idTeam: team.id,
             idLeague: this.props.id
         })
@@ -97,4 +98,3 @@ class LeagueTable extends React.Component {
 }
 
 export default LeagueTable;
-

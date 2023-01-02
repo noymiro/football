@@ -151,5 +151,26 @@ th {
 tr:nth-child(even) {
     background-color: lightyellow;
 }
+h2[id = "h2 LeagueId"]{
+    color: darkred;
+    background-color: #cccccc;
+}
+h2[id = "h2 Round Min"]{
+    color: darkred;
+    background-color: #cccccc;
+}
+h2[id = "h2 Round Max"]{
+    color: darkred;
+    background-color: #cccccc;
+}
+input[type="number"] {
+    width: 100px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 16px;
+    margin: 0 10px;
+}
 
 

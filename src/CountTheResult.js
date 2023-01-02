@@ -1,0 +1,25 @@
+import React from "react";
+
+function CountTheResult(goals) {
+    console.log("countTheResult");
+    let homeTeamScore = 0;
+    let awayTeamScore = 0;
+    try {
+        if(goals.length > 0) {
+            goals.forEach((goal) => {
+                if (goal.home === true) {
+                    homeTeamScore++;
+                } else if (goal.home === false) {
+                    awayTeamScore++;
+                } else {
+                    console.log("0 : 0");
+                }
+
+            });
+        }
+    } catch (e) {
+        console.log(e);
+    }
+    return { homeTeam: homeTeamScore, awayTeam: awayTeamScore };
+}
+export default CountTheResult;

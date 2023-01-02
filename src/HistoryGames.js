@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import HistoryPage from "./HistoryPage";
+import CalculatGoals from "./CountTheResult";
 
 
 const api = "https://app.seker.live/fm1"
@@ -18,7 +20,7 @@ class HistoryGames extends React.Component {
     }
 
     // componentDidMount() {
-    //     this.historyGamesApi();
+    //     <HistoryGames countTheResult={this.countTheResult}/>
     // }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.idTeam !== prevProps.idTeam || this.props.idLeague !== prevProps.idLeague) {
@@ -31,7 +33,7 @@ class HistoryGames extends React.Component {
         try {
             console.log(this.props.idTeam + " idTeam");
 
-          await axios.get(api + "/history/" + this.props.idLeague + "/" + this.props.idTeam)
+            await axios.get(api + "/history/" + this.props.idLeague + "/" + this.props.idTeam)
                 .then(response => {
                         this.setState({
                             historyGames: response.data
@@ -40,28 +42,9 @@ class HistoryGames extends React.Component {
                 )
         }catch(e)
         {
-          console.log(e)
+            console.log(e)
         }
     }
-
-
-
-    countTheResult = (goals) => {
-        let homeTeamScore = 0;
-        let awayTeamScore = 0;
-
-        goals.forEach((goal) => {
-            if (goal.home === true) {
-                homeTeamScore++;
-            } else if (goal.home === false) {
-                awayTeamScore++;
-            } else {
-                console.log("0 : 0");
-            }
-        });
-
-        return { homeTeam: homeTeamScore, awayTeam: awayTeamScore };
-    };
 
     render() {
         return (
@@ -75,7 +58,7 @@ class HistoryGames extends React.Component {
                     </tr>
                     <tbody>
                     {this.state.historyGames.map((game, index) => {
-                        const scores = this.countTheResult(game.goals);
+                        const scores = CalculatGoals(game.goals);
                         return (
                             <tr key={index}>
                                 <td>{game.homeTeam.name}</td>

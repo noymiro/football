@@ -7,6 +7,7 @@ function CountTheResult(goals) {
     try {
         if(goals.length > 0) {
             goals.forEach((goal) => {
+                console.log("forEach");
                 if (goal.home === true) {
                     homeTeamScore++;
                 } else if (goal.home === false) {

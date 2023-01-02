@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import HistoryPage from "./HistoryPage";
 import CalculatGoals from "./CountTheResult";
 
 

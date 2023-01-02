@@ -21,7 +21,7 @@ class HistoryPage extends React.Component {
         const url = api + "/round/" + leagueId + "/" + round;
         const response = await axios.get(url);
         this.setState({
-            ...this.state,
+            // ...this.state,
             arrayOfRounds: [...this.state.arrayOfRounds, response.data],
         });
     };
@@ -42,7 +42,9 @@ class HistoryPage extends React.Component {
                     type="number"
                     onChange={(e) => {
                         this.setState({
+                            // ...this.state,
                             leagueId: e.target.value,
+                            arrayOfRounds: [],
                         });
                     }}
                 />
@@ -51,7 +53,9 @@ class HistoryPage extends React.Component {
                     type="number"
                     onChange={(e) => {
                         this.setState({
+                            // ...this.state,
                             roundMin: e.target.value,
+                            arrayOfRounds: [],
                         });
                     }}
                 />
@@ -60,7 +64,9 @@ class HistoryPage extends React.Component {
                     type="number"
                     onChange={(e) => {
                         this.setState({
+                            // ...this.state,
                             roundMax: e.target.value,
+                            arrayOfRounds: [],
                         });
                     }}
                 />
@@ -79,6 +85,7 @@ class HistoryPage extends React.Component {
                     <table>
                         <tbody>
                         <tr>
+                            <th>Cycle number</th>
                             <th>Home Team</th>
                             <th>Home Team Score</th>
                             <th>Away Team Score</th>
@@ -91,6 +98,7 @@ class HistoryPage extends React.Component {
                                 const scores = CalculatGoals(game.goals); //לשנות לitem
                                 return (
                                     <tr key={index}>
+                                        <td>{game.round}</td>
                                         <td>{game.homeTeam.name}</td>
                                         <td>{scores.homeTeam}</td>
                                         <td>{scores.awayTeam}</td>

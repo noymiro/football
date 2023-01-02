@@ -1,14 +1,16 @@
 import React from "react";
 import axios from "axios";
-import TablesPage from "./TablesPage";
+
 
 const api = "https://app.seker.live/fm1"
 
 class HistoryGames extends React.Component {
     state = {
         historyGames: [],
-        homeTeams: 0,
-        awayTeams: 0,
+        homeTeam: 0,
+        awayTeam: 0,
+
+
     }
 
     constructor(props) {
@@ -19,43 +21,47 @@ class HistoryGames extends React.Component {
     //     this.historyGamesApi();
     // }
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.idTeam !== prevProps.idTeam) {
+        if (this.props.idTeam !== prevProps.idTeam || this.props.idLeague !== prevProps.idLeague) {
             this.historyGamesApi();
+
         }
     }
 
-    historyGamesApi = () => {
-        axios.get(api + "/history/" + this.props.idLeague + "/" + this.props.idTeam)
-            .then(response => {
-                    this.setState({
-                        historyGames: response.data,
-                    })
-                }
-            )
-        console.log(this.state.historyGames + " score")
+    historyGamesApi = async () => {
+        try {
+            console.log(this.props.idTeam + " idTeam");
 
+          await axios.get(api + "/history/" + this.props.idLeague + "/" + this.props.idTeam)
+                .then(response => {
+                        this.setState({
+                            historyGames: response.data
+                        })
+                    }
+                )
+        }catch(e)
+        {
+          console.log(e)
+        }
     }
-    checkIfTheHomeGoalsAreTrueOrFalse = (team) => {
-        team.goals.map((goal) => {
-            console.log(goal.home + " goal.home")
+
+
+
+    countTheResult = (goals) => {
+        let homeTeamScore = 0;
+        let awayTeamScore = 0;
+
+        goals.forEach((goal) => {
             if (goal.home === true) {
-                this.setState({
-                    homeTeams: this.state.homeTeams + 1
-                }
-                )
-
+                homeTeamScore++;
             } else if (goal.home === false) {
-                this.setState({
-                    awayTeams: this.state.awayTeams + 1
-                }
-                )
+                awayTeamScore++;
+            } else {
+                console.log("0 : 0");
             }
-        })
-        return (
-            <td>{this.state.homeTeams} - {this.state.awayTeams}</td>
-        )
-    }
+        });
 
+        return { homeTeam: homeTeamScore, awayTeam: awayTeamScore };
+    };
 
     render() {
         return (
@@ -67,20 +73,23 @@ class HistoryGames extends React.Component {
                         <th>Score</th>
                         <th>Away team</th>
                     </tr>
-                    {this.state.historyGames.map((team) => {
+                    <tbody>
+                    {this.state.historyGames.map((game, index) => {
+                        const scores = this.countTheResult(game.goals);
                         return (
-                            <tr>
-                                <td>{team.homeTeam.name}</td>
-                                {this.checkIfTheHomeGoalsAreTrueOrFalse(team)}
-                                <td>{team.awayTeam.name}</td>
-
+                            <tr key={index}>
+                                <td>{game.homeTeam.name}</td>
+                                <td>{scores.homeTeam} : {scores.awayTeam}</td>
+                                <td>{game.awayTeam.name}</td>
                             </tr>
-                        )
+                        );
                     })}
+                    </tbody>
                 </table>
             </div>
         );
     }
 }
+
 
 export default HistoryGames;

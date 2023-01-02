@@ -105,7 +105,8 @@ class TablePage extends React.Component {
                 <h1>Table Of League</h1>
                 <table className={"Countries"}>
                     <tr>
-                        <th>countries</th>
+                        <th>
+                            countries</th>
                     </tr>
 
                     {this.state.data.map((item, index) => {

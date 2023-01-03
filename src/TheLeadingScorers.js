@@ -26,7 +26,6 @@ class TheLeadingScorers extends React.Component {
         const arrayOfRounds = response.data;
         console.log(arrayOfRounds.length);
         const mapOfPlayers = new Map();
-        debugger;
         if (arrayOfRounds.length > 0) {
             arrayOfRounds.map((game) => {
                     game.goals.map((goal) => {

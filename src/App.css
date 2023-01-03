@@ -172,5 +172,10 @@ input[type="number"] {
     font-size: 16px;
     margin: 0 10px;
 }
+td[class="firstScorer"]{
+    background-color: darkgoldenrod;
+
+
+}
 
 

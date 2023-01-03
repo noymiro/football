@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 const api = "https://app.seker.live/fm1";
-
+const minuteOfHalf = 45;
 class StatisticsPage extends React.Component {
     state = {
         data: [],
@@ -37,19 +37,29 @@ class StatisticsPage extends React.Component {
         const data = this.state.data;
         const firstHalfGoals = [];
         const secondHalfGoals = [];
+        const mapGoalOfRound = new Map;
         data.map((game) => {
-            game.goals.map((goal) => {
-                if (goal.half === "first") {
-                    firstHalfGoals.push(goal);
+            game.round.map((round) => {
+                const numRound = game.round;
+                if (mapGoalOfRound.has(numRound)){
+                    mapGoalOfRound.set(numRound,mapGoalOfRound.get(numRound)+1);
                 } else {
-                    secondHalfGoals.push(goal);
+                    mapGoalOfRound.set(numRound,1);
                 }
+                game.goals.map((goal) => {
+                    if (goal.minute <=minuteOfHalf) {
+                        firstHalfGoals.push(goal);
+                    } else {
+                        secondHalfGoals.push(goal);
+                    }
+                })
             })
         })
         this.setState({
             ...this.state,
             firstHalfGoals: firstHalfGoals,
             secondHalfGoals: secondHalfGoals,
+            mapGoalOfRound : mapGoalOfRound,
         })
 
     }

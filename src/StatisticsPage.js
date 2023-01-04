@@ -40,7 +40,6 @@ class StatisticsPage extends React.Component {
     }
 
     sortGoals = () => {
-        debugger;
         console.log(" sortGoals: " + this.state.data.length);
         const arrayOfGames = this.state.data;
         const firstHalfGoals = [];
@@ -49,21 +48,27 @@ class StatisticsPage extends React.Component {
         let round = 1;
         let counter = 0;
         if (arrayOfGames.length > 0) {
-            arrayOfGames.map((game) => {
+            arrayOfGames.forEach((game) => {
                 try {
-                    game.goals.map((goal) => {
+                    game.goals.forEach((goal) => {
+                        debugger;
                             if (goal.length > 0) {
-                                if (goal.round !== round) {
+                                if (game.round !== round) {
+                                    console.log("round: " + round + " counter: " + counter);
                                     mapGoalsPerRound.set(round, counter);
                                     counter = 0;
                                     round++;
                                 }
                                 if (goal.minute < minuteOfHalf) {
+                                    console.log("firstHalfGoals");
                                     firstHalfGoals.push(goal);
+                                    counter++;
                                 } else {
+                                    console.log("secondHalfGoals");
                                     secondHalfGoals.push(goal);
+                                    counter++;
                                 }
-                                counter++;
+
                             }
                         }
                     )

@@ -178,4 +178,18 @@ td[class="firstScorer"]{
 
 }
 
+h2[class = "statistic"]{
+    color: deepskyblue;
+    background-color: #cccccc;
+}
+button[id = "buttonStatistic"]{
+    width: 100px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 16px;
+    margin: 0 10px;
+}
+
 

@@ -18,9 +18,9 @@ class StatisticsPage extends React.Component {
 
     }
 
-    constructor(props) {
-        super(props);
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
 
     // componentDidMount() {
     //     this.getUrlOfLeague(1)
@@ -35,7 +35,7 @@ class StatisticsPage extends React.Component {
         this.setState({
             // ...this.state,
             data: response.data,
-        })
+        }, () => this.forceUpdate());
         if (this.state.data.length > 0) {
             await this.sortGoals()
 
@@ -82,20 +82,24 @@ class StatisticsPage extends React.Component {
             ...this.state,
             firstHalfGoals: firstHalfGoals,
             secondHalfGoals: secondHalfGoals,
-            mapOfRound: mapOfRounds,
+            mapOfRounds: mapOfRounds,
         })
 
         // if (this.state.mapOfRounds !== undefined) {
-        setInterval(() => {
-             this.getTheEarliestAndLatestGoal();
-             this.getTheRoundOfTheMostAndLeastGoals();
-        }, 1500);
+
+        setTimeout(() => {
+                this.getTheEarliestAndLatestGoal();
+                this.getTheRoundOfTheMostAndLeastGoals(mapOfRounds);
+            }
+            , 1000);
+
+
 
         // }
     }
 
     getTheEarliestAndLatestGoal = async () => {
-        debugger;
+        // debugger;
         console.log("getTheEarliestAndLatestGoal");
         let theEarliestGoal = 45;
         let theLatestGoal = 45;
@@ -115,20 +119,23 @@ class StatisticsPage extends React.Component {
                 }
             }
         )
-        await this.setState({
+        this.setState({
             ...this.state,
             theEarliestGoal: theEarliestGoal,
             theLatestGoal: theLatestGoal,
         })
     }
 
-    getTheRoundOfTheMostAndLeastGoals = async () => {
-        console.log("getTheRoundOfTheMostAndLeastGoals");
+    getTheRoundOfTheMostAndLeastGoals = async (mapOfRounds) => {
+        // debugger;
+        console.log("getTheRoundOfTheMostAndLeastGoals:  " + mapOfRounds.size);
         let roundOfTheMostGoals = 0;
         let roundOfTheLeastGoals = 0;
         let max = 0;
         let min = 100;
-        this.state.mapOfRounds.forEach((value, key) => {
+
+        console.log("mapOfRounds: " + mapOfRounds.size);
+        mapOfRounds.forEach((value, key) => {
             if (value > max) {
                 max = value;
                 roundOfTheMostGoals = key;
@@ -188,46 +195,4 @@ class StatisticsPage extends React.Component {
 
 export default StatisticsPage;
 
-// sortGoals() {
-//     const data = this.state.data;
-//     const firstHalfGoals = [];
-//     const secondHalfGoals = [];
-//     const mapGoalOfRound = new Map;
-//     data.map((game) => {
-//         const numOfRound = game.round
-//         game.goals.map((goal) => {
-//             if (goal.minute <= minuteOfHalf) {
-//                 firstHalfGoals.push(goal);
-//
-//             }
-//             else {
-//                 secondHalfGoals.push(goal);
-//             }
-//         })
-//         mapGoalOfRound.set(numOfRound, game.goals.length);
-//     })
-//     this.setState({
-//         ...this.state,
-//         firstHalfGoals: firstHalfGoals,
-//         secondHalfGoals: secondHalfGoals,
-//         arrayOfRounds: mapGoalOfRound,
-//     })
-// }
 
-// data.map((game) => {
-//     game.round.map((round) => {
-//         const numRound = game.round;
-//         if (mapGoalOfRound.has(numRound)) {
-//             mapGoalOfRound.set(numRound, mapGoalOfRound.get(numRound) + 1);
-//         } else {
-//             mapGoalOfRound.set(numRound, 1);
-//         }
-//         game.goals.map((goal) => {
-//             if (goal.minute <= minuteOfHalf) {
-//                 firstHalfGoals.push(goal);
-//             } else {
-//                 secondHalfGoals.push(goal);
-//             }
-//         })
-//     })
-// })

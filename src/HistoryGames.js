@@ -18,9 +18,7 @@ class HistoryGames extends React.Component {
         super(props);
     }
 
-    // componentDidMount() {
-    //     <HistoryGames countTheResult={this.countTheResult}/>
-    // }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.idTeam !== prevProps.idTeam || this.props.idLeague !== prevProps.idLeague) {
             this.historyGamesApi();
@@ -44,6 +42,7 @@ class HistoryGames extends React.Component {
             console.log(e)
         }
     }
+
 
     render() {
         return (
@@ -75,3 +74,6 @@ class HistoryGames extends React.Component {
 
 
 export default HistoryGames;
+
+export class calculateTeamPoints {
+}

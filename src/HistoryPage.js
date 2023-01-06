@@ -44,7 +44,7 @@ class HistoryPage extends React.Component {
                         this.setState({
                             // ...this.state,
                             leagueId: e.target.value,
-                            arrayOfRounds: [],
+
                         });
                     }}
                 />

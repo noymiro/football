@@ -1,8 +1,10 @@
 
 import React from "react";
-import axios from "axios";
+import axios, {get} from "axios";
 import TeamPlayers from "./TeamPlayers";
 import HistoryGames from "./HistoryGames";
+import { calculateTeamPoints } from './HistoryGames';
+import historyGames from "./HistoryGames";
 const api = "https://app.seker.live/fm1"
 
 
@@ -13,6 +15,7 @@ class LeagueTable extends React.Component {
             {
                 idTeam: 0,
                 idLeague: 0,
+                showTable: true,
             }
         ],
 
@@ -53,9 +56,27 @@ class LeagueTable extends React.Component {
             idTeam: team.id,
             idLeague: this.props.id
         })
-
-
     }
+
+    calculateTeamPoints = (idTeam, games) => {
+        let points = 0;
+        games.forEach((game) => {
+
+            if (historyGames.homeTeam === idTeam.id || games.awayTeam === idTeam.id) {
+                if (historyGames.homeTeam === historyGames.awayTeam) {
+                    points += 1;
+                } else if (historyGames.homeTeam === idTeam.id && historyGames.homeTeam > historyGames.awayTeam) {
+                    points += 3;
+                } else if (historyGames.awayTeam === idTeam.id && historyGames.awayTeam > historyGames.homeTeam) {
+                    points += 3;
+                }
+
+            }
+        }); return points;
+    }
+
+
+
 
     render() {
         return (
@@ -65,15 +86,23 @@ class LeagueTable extends React.Component {
                 <table id={"leagueTab"}>
                     <tr>
                         <th>Team</th>
-                        <th>id</th>
+                        <th>Options</th>
+                        <th>Team Scores</th>
+                        <th>Goal difference</th>
 
                     </tr>
-                    {this.state.data.map((team) => {
+                    {this.state.data.map((team, index) => {
                             return (
                                 <tr>
-                                    <td>{team.name}</td>
-                                    <td>{team.id}</td>
+                                                <tr className={((index === 0) ? "top" : ((index >= (20-3)) ? "lower" : ""))} >
+                                                <td>{index + 1}</td>
+                                                <td>{team.name} </td>
+
+
+                                                    </tr>
+
                                     <td>
+
                                         <button onClick={() => this.changeIdTeamAndIdLeague(team)}> Show players team
                                         </button>
                                         <button onClick={() => this.changeIdTeamAndIdLeague(team)}> Show history games
@@ -83,11 +112,15 @@ class LeagueTable extends React.Component {
 
 
                                 </tr>
-                            )
-                        }
+                            )}
+
+
+
+
                     )}
 
                 </table>
+
 
                 <TeamPlayers idLeague={this.state.idLeague} idTeam={this.state.idTeam} />
                 <HistoryGames idLeague={this.state.idLeague} idTeam={this.state.idTeam} />

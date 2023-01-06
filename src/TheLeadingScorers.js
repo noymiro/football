@@ -73,6 +73,7 @@ class TheLeadingScorers extends React.Component {
                         });
                     }}
                 />
+
                 <button onClick={() => {
                     this.getLeadingScorers(this.state.value);
                 }}>Get Leading Scorers
@@ -100,6 +101,5 @@ class TheLeadingScorers extends React.Component {
 
     }
 }
-
 
 export default TheLeadingScorers;

@@ -1,7 +1,7 @@
 function HomePage () {
     return(
-        <div>
-            HomePage
+        <div id={"welcome"}>
+            Welcome to our sports website ;)
         </div>
     )
 }

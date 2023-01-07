@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import CalculatGoals from "./CountTheResult";
+import Selection from "./Selection";
 
 const api = "https://app.seker.live/fm1";
 
@@ -33,28 +34,32 @@ class HistoryPage extends React.Component {
         }
     };
 
-    max = (event) => {
-        const number = (event.target.value * 1);
-        if ((this.state.leaguesHistory.length > number) && (1 <= number) && (this.state.min <= number)) {
-            this.setState({
-                roundMax: number
-            })
-        }
-    }
-
-min = (event) => {
-    const number = (event.target.value * 1);
-    if ((1 <= number) && (this.state.leaguesHistory.length > number) && (number <= this.state.max)){
-    this.setState({
-                      roundMin: number
-                  })
-}
-}
+//     max = (event) => {
+//         const number = (event.target.value * 1);
+//         if ((this.state.leaguesHistory.length > number) && (1 <= number) && (this.state.min <= number)) {
+//             this.setState({
+//                 roundMax: number
+//             })
+//         }
+//     }
+//
+// min = (event) => {
+//     const number = (event.target.value * 1);
+//     if ((1 <= number) && (this.state.leaguesHistory.length > number) && (number <= this.state.max)){
+//     this.setState({
+//                       roundMin: number
+//                   })
+// }
+// }
+    // 2 פונקציות להביא את הMIN ואת הMAX
 
     render() {
         return (
             <div>
                 <h1>HistoryPage</h1>
+                {/*<Selection onEnter={this.historyRoundGames()}/> להסתכל כאן = > */}
+
+
                 <h2 id={"h2 LeagueId"}>LeagueId: {this.props.idLeague}</h2>
                 <input
                     type="number"

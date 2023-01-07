@@ -76,11 +76,9 @@ class LeagueTable extends React.Component {
     //     });
     //     return points;
     // }
-
+    //
 
     render() {
-
-
         return (
 
             <div>
@@ -98,10 +96,7 @@ class LeagueTable extends React.Component {
                                 <tr className={((index === 0) ? "top" : ((index >= (20-3)) ? "lower" : ""))} >
                                     <td>{index + 1}</td>
                                     <td>{team.name} </td>
-
-
                                 </tr>
-
                                 <td>
 
                                     <button onClick={() => this.changeIdTeamAndIdLeague(team)}> Show players team

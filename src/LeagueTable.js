@@ -5,6 +5,7 @@ import HistoryGames from "./HistoryGames";
 import historyGames from "./HistoryGames";
 import CountThePoints from "./CalculateTeamPoints";
 import HistoryGamesApi from "./HistoryGamesApi";
+import GoalDifference from "./GoalDifference";
 
 const api = "https://app.seker.live/fm1"
 
@@ -117,10 +118,15 @@ class LeagueTable extends React.Component {
                                         {/*    games*/}
                                         {/*</button>*/}
                                     </td>
+                                    {/*<td>*/}
+                                    {/*    {CountThePoints(team.id, this.props.id)}*/}
+                                    {/*/!*<td>{team.goalDifference}</td>*!/*/}
+                                    {/*/!*אפשר לשחק עם השורות והעמודות בטבלה כדי להציג את זה לצד הכיתוב ולא מתחת*!/*/}
 
-                                    {/*<td>{team.goalDifference}</td>*/}
-                                    {/*אפשר לשחק עם השורות והעמודות בטבלה כדי להציג את זה לצד הכיתוב ולא מתחת*/}
-
+                                    {/*</td>*/}
+                                    {/*<td>*/}
+                                    {/*    {GoalDifference(team.id, this.props.id)}*/}
+                                    {/*</td>*/}
 
                                 </tr>
                             )

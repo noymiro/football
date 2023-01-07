@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import Selection from "./Selection";
 
 const api = "https://app.seker.live/fm1";
 const minuteOfHalf = 45;
@@ -174,21 +175,7 @@ class StatisticsPage extends React.Component {
         return (
             <div>
                 <div>
-                    <input
-                        type="number"
-                        placeholder="leagueId"
-                        onChange={(e) => {
-                            this.setState({
-                                ...this.state,
-                                valueOfLeague: e.target.value,
-
-                            })
-                        }}
-                    />
-                    <button id="buttonStatistics" disabled={this.state.valueOfLeague === 0} onClick={() => {
-                        this.getUrlOfLeague(this.state.valueOfLeague);
-                    }}>Click to get the statistics of the league
-                    </button>
+                    <Selection onEnter={this.getUrlOfLeague} />
 
                 </div>
                 <h1>Statistics</h1>

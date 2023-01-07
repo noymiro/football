@@ -1,6 +1,8 @@
 import React from "react";
 import CalculatGoals from "./CountTheResult";
 import HistoryGamesApi from "./HistoryGamesApi";
+import GoalDifference from "./GoalDifference";
+import CountThePoints from "./CalculateTeamPoints";
 
 
 const api = "https://app.seker.live/fm1"
@@ -80,7 +82,8 @@ class HistoryGames extends React.Component {
                                 <td>{game.homeTeam.name}</td>
                                 <td>{scores.homeTeam} : {scores.awayTeam}</td>
                                 <td>{game.awayTeam.name}</td>
-                                {/*<td>{this.calculateTeamPoints(game.homeTeam)}</td>*/}
+                                {/*<td>{CountThePoints(game.homeTeam)}</td>*/}
+                                {/*<td>{GoalDifference(game.homeTeam)}</td>*/}
 
                             </tr>
                         );

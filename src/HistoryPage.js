@@ -33,6 +33,24 @@ class HistoryPage extends React.Component {
         }
     };
 
+    max = (event) => {
+        const number = (event.target.value * 1);
+        if ((this.state.leaguesHistory.length > number) && (1 <= number) && (this.state.min <= number)) {
+            this.setState({
+                roundMax: number
+            })
+        }
+    }
+
+min = (event) => {
+    const number = (event.target.value * 1);
+    if ((1 <= number) && (this.state.leaguesHistory.length > number) && (number <= this.state.max)){
+    this.setState({
+                      roundMin: number
+                  })
+}
+}
+
     render() {
         return (
             <div>

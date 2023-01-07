@@ -43,6 +43,22 @@ class HistoryGames extends React.Component {
         }
     }
 
+    // calculateTeamPoints = (idTeam) => {
+    //     let points = 0;
+    //     this.state.historyGames.forEach((game) => {
+    //         if (game.homeTeam === idTeam.id || game.awayTeam === idTeam.id) {
+    //             if (game.homeTeam === game.awayTeam) {
+    //                 points += 1;
+    //             } else if (game.homeTeam === idTeam.id && game.homeTeamScore > game.awayTeamScore) {
+    //                 points += 3;
+    //             } else if (game.awayTeam === idTeam.id && game.awayTeamScore > game.homeTeamScore) {
+    //                 points += 3;
+    //             }
+    //         }
+    //     });
+    //     return points;
+    // }
+
 
     render() {
         return (

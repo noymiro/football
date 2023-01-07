@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import Selection from "./Selection";
 
 const api = "https://app.seker.live/fm1";
 
@@ -15,9 +16,20 @@ class TheLeadingScorers extends React.Component {
 
     }
 
+
     componentDidMount() {
+        // fetch the list of leagues here and store them in the state
+        this.fetchLeagues();
+    }
 
-
+    fetchLeagues = async () => {
+        const url = api + "/leagues";
+        const response = await axios.get(url);
+        const leagues = response.data;
+        this.setState({
+            ...this.state,
+            leagues: leagues
+        });
     }
 
     getLeadingScorers = async (leagueId) => {
@@ -64,20 +76,9 @@ class TheLeadingScorers extends React.Component {
             <div>
                 <h1>TheLeadingScorers</h1>
                 <h2 id={"h2 LeagueId"}>LeagueId: {this.props.idLeague}</h2>
-                <input
-                    type="number"
-                    onChange={(e) => {
-                        this.setState({
-                            ...this.state,
-                            value: e.target.value,
-                        });
-                    }}
-                />
+                <Selection onEnter={this.getLeadingScorers} />
 
-                <button onClick={() => {
-                    this.getLeadingScorers(this.state.value);
-                }}>Get Leading Scorers
-                </button>
+
                 <table id = "tableOfScorer">
                     <thead>
                     <tr>

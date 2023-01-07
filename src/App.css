@@ -33,6 +33,11 @@ div[id="welcome"]{
 
 }
 
+select {
+    margin: 10px;
+    font-size: 20px;
+}
+
 h1 {
 
     color: white;
@@ -41,7 +46,7 @@ h1 {
     text-align: center;
     margin: 0;
     padding: 0;
-    width: 780px;
+    width: 600px;
     height: 50px;
     background-color: black;
     border-bottom: 1px solid #ccc;

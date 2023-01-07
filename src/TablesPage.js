@@ -1,8 +1,7 @@
 import React from 'react';
 import axios from "axios";
-import TeamPlayers from "./TeamPlayers";
-import HistoryGames from "./HistoryGames";
 import LeagueTable from "./LeagueTable";
+
 
 const api = "https://app.seker.live/fm1"
 
@@ -21,7 +20,6 @@ class TablePage extends React.Component {
         this.inputLeaguesFromApi();
     }
 
-
     inputLeaguesFromApi = () => {
         axios.get(api + "/leagues")
             .then(response => {
@@ -34,8 +32,6 @@ class TablePage extends React.Component {
 
     }
 
-
-
     changeLeagueId = (item) => {
         console.log(item.id + " changeLeagueId");
         this.setState({
@@ -44,42 +40,30 @@ class TablePage extends React.Component {
         console.log(this.state.leagueId + "? changeLeagueId");
     }
 
-
+    changeLeagueId = (event) => {
+        this.setState({
+            leagueId: event.target.value
+        });
+    };
     render() {
         return (
             <div>
                 <h1>Table Of League</h1>
-                <table className={"Countries"}>
-                    <tr>
-                        <th>
-                            countries</th>
-                    </tr>
+                <select value={this.state.leagueId} onChange={this.changeLeagueId}>
+                    <option value="none" disabled={true}>
 
+                        SELECT LEAGUE
+                    </option>
                     {this.state.data.map((item, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td> {item.name}</td>
-                                    <td>
-                                        <button onClick={() => this.changeLeagueId(item)}>Table</button>
-                                    </td>
-
-
-
-
-                                </tr>
-                            )
-                        }
-                    )}
-                </table>
-                <LeagueTable id={this.state.leagueId}/>
-
-
-
-
+                        return (
+                            <option value={item.id}>{item.name + " League"}</option>
+                        );
+                    })}
+                </select>
+                <LeagueTable id={this.state.leagueId} />
             </div>
-
-        )
+        );
     }
-}
 
+}
 export default TablePage;

@@ -35,7 +35,7 @@ class StatisticsPage extends React.Component {
         this.setState({
             // ...this.state,
             data: response.data,
-        }, () => this.forceUpdate());
+        })
         if (this.state.data.length > 0) {
             await this.sortGoals()
 
@@ -88,7 +88,7 @@ class StatisticsPage extends React.Component {
         // if (this.state.mapOfRounds !== undefined) {
 
         setTimeout(() => {
-                this.getTheEarliestAndLatestGoal();
+                this.theSmallestAndTheLargestGoal(firstHalfGoals, secondHalfGoals);
                 this.getTheRoundOfTheMostAndLeastGoals(mapOfRounds);
             }
             , 1000);
@@ -98,33 +98,51 @@ class StatisticsPage extends React.Component {
         // }
     }
 
-    getTheEarliestAndLatestGoal = async () => {
-        // debugger;
-        console.log("getTheEarliestAndLatestGoal");
-        let theEarliestGoal = 45;
-        let theLatestGoal = 45;
-        const arrayOfFirstHalfGoals = this.state.firstHalfGoals;
-        console.log("arrayOfFirstHalfGoals: " + arrayOfFirstHalfGoals.length);
-        arrayOfFirstHalfGoals.map((goal) => {
-                if (goal.minute < theEarliestGoal) {
-                    console.log("if1 " + "goal min: " + goal.minute);
+    theSmallestAndTheLargestGoal = async (firstHalf , secondHalf) => {
+        console.log("theSmallestAndTheLargestGoal");
+        debugger;
+        let theEarliestGoal = -1;
+        let theLatestGoal = -1;
+        if (firstHalf !== undefined) {
+            firstHalf.map((goal) => {
+                if (goal.minute < theEarliestGoal || theEarliestGoal === -1) { //הגול הכי מוקדם במחצית הראשונה
                     theEarliestGoal = goal.minute;
                 }
-            }
-        )
-        this.state.secondHalfGoals.map((goal) => {
-                if (goal.minute > theLatestGoal) {
-                    console.log("if2 " + "goal min:" + goal.minute);
+                if (goal.minute > theLatestGoal) { // הגול הכי מאוחר במחצית ראשונה
                     theLatestGoal = goal.minute;
                 }
-            }
-        )
-        this.setState({
-            ...this.state,
-            theEarliestGoal: theEarliestGoal,
-            theLatestGoal: theLatestGoal,
-        })
+            })
+        }
+        if (secondHalf !== undefined) {
+            secondHalf.map((goal) => {
+                if (goal.minute < theEarliestGoal || theEarliestGoal === -1) { // הגול הכי מוקדם במחצית השנייה
+                    theEarliestGoal = goal.minute;
+                }
+                if (goal.minute > theLatestGoal) { // הגול הכי מאוחר במחצית השנייה
+                    theLatestGoal = goal.minute;
+                }
+            })
+        }
+        setTimeout(() => {
+            this.setState({
+                    ...this.state,
+                    theEarliestGoal: theEarliestGoal,
+                    theLatestGoal: theLatestGoal,
+                }
+            )
+        } , 1000);
+
     }
+
+    refreshThePage = () => {
+        setTimeout(() => {
+                window.location.reload();
+            }
+            , 1500);
+    }
+
+
+
 
     getTheRoundOfTheMostAndLeastGoals = async (mapOfRounds) => {
         // debugger;
@@ -163,14 +181,13 @@ class StatisticsPage extends React.Component {
                             this.setState({
                                 ...this.state,
                                 valueOfLeague: e.target.value,
+
                             })
                         }}
                     />
-                    <button
-                        id="buttonStatistics"
-                        onClick={() => {
-                            this.getUrlOfLeague(this.state.valueOfLeague);
-                        }}>Click to get the statistics of the league
+                    <button id="buttonStatistics" disabled={this.state.valueOfLeague === 0} onClick={() => {
+                        this.getUrlOfLeague(this.state.valueOfLeague);
+                    }}>Click to get the statistics of the league
                     </button>
 
                 </div>
@@ -181,7 +198,13 @@ class StatisticsPage extends React.Component {
                 <h2 className={"statistic"}>The latest goal {this.state.theLatestGoal}</h2>
                 <h2 className={"statistic"}>The round of the most goals {this.state.roundOfTheMostGoals}</h2>
                 <h2 className={"statistic"}>The round of the least goals {this.state.roundOfTheLeastGoals}</h2>
-
+                <button
+                    id="buttonStatistics"
+                    onClick={() => {
+                        this.refreshThePage();
+                    }
+                    }>Click to refresh the page
+                </button>
             </div>
 
 
@@ -194,5 +217,3 @@ class StatisticsPage extends React.Component {
 }
 
 export default StatisticsPage;
-
-

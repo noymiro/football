@@ -1,7 +1,6 @@
 import React from "react";
-import axios from "axios";
 import CalculatGoals from "./CountTheResult";
-import Selection from "./Selection";
+import HistoryGamesApi from "./HistoryGamesApi";
 
 
 const api = "https://app.seker.live/fm1"
@@ -22,27 +21,44 @@ class HistoryGames extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.idTeam !== prevProps.idTeam || this.props.idLeague !== prevProps.idLeague) {
-            this.historyGamesApi();
+            this.setHistoryGames();
 
         }
     }
 
-    historyGamesApi = async () => {
+    setHistoryGames = async () => {
         try {
-            console.log(this.props.idTeam + " idTeam");
-
-            await axios.get(api + "/history/" + this.props.idLeague + "/" + this.props.idTeam)
-                .then(response => {
-                        this.setState({
-                            historyGames: response.data
-                        })
-                    }
-                )
-        }catch(e)
-        {
+            this.setState({
+                historyGames: await HistoryGamesApi(this.props.idLeague, this.props.idTeam)
+            })
+        } catch (e) {
             console.log(e)
         }
-}
+
+    }
+
+    // calculateTeamPoints = (team) => {
+    //     debugger;
+    //     let points = 0;
+    //     this.state.historyGames.forEach(game => {
+    //         if (game.homeTeam.id === team.id) {
+    //             const scores = CalculatGoals(game.goals);
+    //             if (scores.homeTeam > scores.awayTeam) {
+    //                 points += 3;
+    //             } else if (scores.homeTeam === scores.awayTeam) {
+    //                 points += 1;
+    //             }
+    //         } else if (game.awayTeam.id === team.id) {
+    //             const scores = CalculatGoals(game.goals);
+    //             if (scores.homeTeam < scores.awayTeam) {
+    //                 points += 3;
+    //             } else if (scores.homeTeam === scores.awayTeam) {
+    //                 points += 1;
+    //             }
+    //         }
+    //     });
+    //     return points;
+    // }
 
 
     render() {
@@ -54,6 +70,7 @@ class HistoryGames extends React.Component {
                         <th>Home team</th>
                         <th>Score</th>
                         <th>Away team</th>
+                        {/*<th>Team points</th>*/}
                     </tr>
                     <tbody>
                     {this.state.historyGames.map((game, index) => {
@@ -63,6 +80,8 @@ class HistoryGames extends React.Component {
                                 <td>{game.homeTeam.name}</td>
                                 <td>{scores.homeTeam} : {scores.awayTeam}</td>
                                 <td>{game.awayTeam.name}</td>
+                                {/*<td>{this.calculateTeamPoints(game.homeTeam)}</td>*/}
+
                             </tr>
                         );
                     })}
@@ -75,6 +94,3 @@ class HistoryGames extends React.Component {
 
 
 export default HistoryGames;
-
-export class calculateTeamPoints {
-}

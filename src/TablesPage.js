@@ -50,8 +50,7 @@ class TablePage extends React.Component {
             <div>
                 <h1>Table Of League</h1>
                 <select value={this.state.leagueId} onChange={this.changeLeagueId}>
-                    <option value="none" disabled={true}>
-
+                    <option value="none" disabled={false}>
                         SELECT LEAGUE
                     </option>
                     {this.state.data.map((item, index) => {
@@ -61,6 +60,8 @@ class TablePage extends React.Component {
                     })}
                 </select>
                 <LeagueTable id={this.state.leagueId} />
+
+
             </div>
         );
     }

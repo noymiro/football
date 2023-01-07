@@ -1,9 +1,11 @@
 import React from "react";
-import axios, {get} from "axios";
+import axios from "axios";
 import TeamPlayers from "./TeamPlayers";
 import HistoryGames from "./HistoryGames";
-import { calculateTeamPoints } from './HistoryGames';
 import historyGames from "./HistoryGames";
+import CountThePoints from "./CalculateTeamPoints";
+import HistoryGamesApi from "./HistoryGamesApi";
+
 const api = "https://app.seker.live/fm1"
 
 
@@ -14,19 +16,16 @@ class LeagueTable extends React.Component {
             {
                 idTeam: 0,
                 idLeague: 0,
-                showTable: true,
+                showTableOfPlayers: false,
+                showTableOfHistoryGames: false,
+                historyGames: [],
             }
         ],
 
-        // leagueTable: [],
-        // teamPlayers: [],
-        // historyGames: [],
-        // homeTeam: 0,
-        // awayTeam: 0,
-        //
 
 
     }
+
     constructor(props) {
         super(props);
 
@@ -35,6 +34,7 @@ class LeagueTable extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.id !== prevProps.id) {
             this.inputTablesFromApi();
+            // this.crateTdOfPoints();
             // this.createObject();
         }
     }
@@ -44,6 +44,7 @@ class LeagueTable extends React.Component {
         axios.get(api + "/teams/" + this.props.id)
             .then(response => {
                     this.setState({
+                        ...this.state,
                         data: response.data,
 
                     })
@@ -51,32 +52,43 @@ class LeagueTable extends React.Component {
             )
 
     }
+
+    // crateTdOfPoints = async (teamId) => {
+    //         console.log(this.props.id + "proId " + teamId + " teamId" + " crateTdOfPoints");
+    //         await this.setState({
+    //             ...this.state,
+    //             historyGames: HistoryGamesApi(1, 180),
+    //         })
+    //
+    // }
+
+
+
     changeIdTeamAndIdLeague = (team) => {
         console.log(team.id + " item !" + this.props.id + " idLeague !");
         this.setState({
             ...this.state,
             idTeam: team.id,
-            idLeague: this.props.id
+            idLeague: this.props.id,
+
+
         })
+        //
+        // if (string === "players") {
+        //     this.setState({
+        //         ...this.state,
+        //         showTableOfPlayers: true,
+        //     })
+        // }
+        // if (string === "history") {
+        //     this.setState({
+        //         ...this.state,
+        //         showTableOfHistoryGames: true,
+        //     })
+        // }
+
     }
-    //לא עובד צריך לנסות לרנדר את זה
-    // calculateTeamPoints = (idTeam, games)=>
-    // {
-    //     let points = 0;
-    //     games.forEach((game) => {
-    //         if (game.homeTeam === idTeam.id || game.awayTeam === idTeam.id) {
-    //             if (game.homeTeam === game.awayTeam) {
-    //                 points += 1;
-    //             } else if (game.homeTeam === idTeam.id && game.homeTeam > game.awayTeam) {
-    //                 points += 3;
-    //             } else if (game.awayTeam === idTeam.id && game.awayTeam > game.homeTeam) {
-    //                 points += 3;
-    //             }
-    //         }
-    //     });
-    //     return points;
-    // }
-    //
+
 
     render() {
         return (
@@ -90,36 +102,45 @@ class LeagueTable extends React.Component {
                         <th>Goal difference</th>
 
                     </tr>
-                    {this.state.data.map((team, index) => {
+                    {this.state.data.map( (team, index) => {
+                        // {this.crateTdOfPoints(team.id)}
                         return (
-                            <tr>
-                                <tr className={((index === 0) ? "top" : ((index >= (20-3)) ? "lower" : ""))} >
-                                    <td>{index + 1}</td>
-                                    <td>{team.name} </td>
+                                <tr>
+                                    <tr className={((index === 0) ? "top" : ((index >= (20 - 3)) ? "lower" : ""))}>
+                                        <td>{index + 1}</td>
+                                        <td>{team.name} </td>
+                                    </tr>
+                                    <td>
+
+                                        <button onClick={() => this.changeIdTeamAndIdLeague(team )}> Show details</button>
+                                        {/*<button onClick={() => this.changeIdTeamAndIdLeague(team )}> Show history*/}
+                                        {/*    games*/}
+                                        {/*</button>*/}
+                                    </td>
+
+                                    {/*<td>{team.goalDifference}</td>*/}
+                                    {/*אפשר לשחק עם השורות והעמודות בטבלה כדי להציג את זה לצד הכיתוב ולא מתחת*/}
+
+
                                 </tr>
-                                <td>
-
-                                    <button onClick={() => this.changeIdTeamAndIdLeague(team)}> Show players team
-                                    </button>
-                                    <button onClick={() => this.changeIdTeamAndIdLeague(team)}> Show history games
-                                    </button>
-                                </td>
-                                {/*אפשר לשחק עם השורות והעמודות בטבלה כדי להציג את זה לצד הכיתוב ולא מתחת*/}
-
-
-                            </tr>
-                        )}
-
-
-
-
+                            )
+                        }
                     )}
+                    {/*{this.state.historyGames.map((team, index) => {*/}
+                    {/*    return (*/}
+                    {/*    <td>{CountThePoints(team)}</td>*/}
+                    {/*    )*/}
+                    {/*})}*/}
 
                 </table>
 
 
-                <TeamPlayers idLeague={this.state.idLeague} idTeam={this.state.idTeam} />
-                <HistoryGames idLeague={this.state.idLeague} idTeam={this.state.idTeam} />
+                {/*{this.state.showTable? true :  <TeamPlayers idLeague={this.state.idLeague} idTeam={this.state.idTeam} />}*/}
+                {/*{this.state.showTableOfPlayers ? true : <TeamPlayers idLeague={this.state.idLeague} idTeam={this.state.idTeam}/>}*/}
+                {/*{this.state.showTableOfHistoryGames ? true : <HistoryGames idLeague={this.state.idLeague} idTeam={this.state.idTeam}/>}*/}
+
+                <TeamPlayers idLeague={this.state.idLeague} idTeam={this.state.idTeam}/>
+                <HistoryGames idLeague={this.state.idLeague} idTeam={this.state.idTeam}/>
 
             </div>
         )

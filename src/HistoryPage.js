@@ -43,6 +43,12 @@ class HistoryPage extends React.Component {
                 <input
                     type="number"
                     onChange={(e) => {
+                        let value = e.target.value;
+                        if (value <= 0) {
+                            value = 1;
+                        } if(value > this.state.arrayOfRounds.length){
+                            value = this.state.arrayOfRounds.length
+                        }
                         this.setState({
                             leagueId: e.target.value,
 
@@ -53,8 +59,13 @@ class HistoryPage extends React.Component {
                 <input
                     type="number"
                     onChange={(e) => {
+                        let value = e.target.value;
+                        if (value <= 0) {
+                            value = 1;
+                        }if(value > this.state.arrayOfRounds.length){
+                            value = this.state.arrayOfRounds.length
+                        }
                         this.setState({
-                            // ...this.state,
                             roundMin: e.target.value,
                             arrayOfRounds: [],
                         });

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from "axios";
 import LeagueTable from "./LeagueTable";
-
+import HistoryGamesApi from "./HistoryGamesApi";
 
 const api = "https://app.seker.live/fm1"
 
@@ -9,6 +9,7 @@ class TablePage extends React.Component {
     state = {
         data: [],
         leagueId: 0,
+        historyGames: [],
 
     }
 
@@ -32,19 +33,15 @@ class TablePage extends React.Component {
 
     }
 
-    changeLeagueId = (item) => {
-        console.log(item.id + " changeLeagueId");
-        this.setState({
-            leagueId: item.id
-        })
-        console.log(this.state.leagueId + "? changeLeagueId");
-    }
-
-    changeLeagueId = (event) => {
+    changeLeagueId = async (event) => {
         this.setState({
             leagueId: event.target.value
         });
-    };
+
+    }
+
+
+
     render() {
         return (
             <div>
@@ -59,7 +56,7 @@ class TablePage extends React.Component {
                         );
                     })}
                 </select>
-                <LeagueTable id={this.state.leagueId} />
+                <LeagueTable id={this.state.leagueId}/>
 
 
             </div>
@@ -67,4 +64,5 @@ class TablePage extends React.Component {
     }
 
 }
+
 export default TablePage;

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from "axios";
+import HistoryPage from "./HistoryPage";
 
 class Selection extends Component {
 
@@ -43,7 +44,9 @@ class Selection extends Component {
                 <button onClick={() => this.props.onEnter(this.state.leagueId)}>Enter</button>
 
             </div>
+
         );
     }
+
 }
 export default Selection;

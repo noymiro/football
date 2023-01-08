@@ -14,7 +14,6 @@ class HistoryPage extends React.Component {
     };
     componentDidMount() {
 
-        // this.selectRangeOfRounds(1, 1, 10);
     }
 
     historyRoundGames = async (leagueId, round) => {
@@ -67,6 +66,7 @@ class HistoryPage extends React.Component {
                         this.setState({
                             // ...this.state,
                             leagueId: e.target.value,
+
 
                         });
                     }}

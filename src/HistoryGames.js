@@ -1,8 +1,7 @@
 import React from "react";
 import CalculatGoals from "./CountTheResult";
 import HistoryGamesApi from "./HistoryGamesApi";
-import GoalDifference from "./GoalDifference";
-import CountThePoints from "./CalculateTeamPoints";
+
 
 
 const api = "https://app.seker.live/fm1"
@@ -39,28 +38,6 @@ class HistoryGames extends React.Component {
 
     }
 
-    // calculateTeamPoints = (team) => {
-    //     debugger;
-    //     let points = 0;
-    //     this.state.historyGames.forEach(game => {
-    //         if (game.homeTeam.id === team.id) {
-    //             const scores = CalculatGoals(game.goals);
-    //             if (scores.homeTeam > scores.awayTeam) {
-    //                 points += 3;
-    //             } else if (scores.homeTeam === scores.awayTeam) {
-    //                 points += 1;
-    //             }
-    //         } else if (game.awayTeam.id === team.id) {
-    //             const scores = CalculatGoals(game.goals);
-    //             if (scores.homeTeam < scores.awayTeam) {
-    //                 points += 3;
-    //             } else if (scores.homeTeam === scores.awayTeam) {
-    //                 points += 1;
-    //             }
-    //         }
-    //     });
-    //     return points;
-    // }
 
 
     render() {
@@ -82,8 +59,7 @@ class HistoryGames extends React.Component {
                                 <td>{game.homeTeam.name}</td>
                                 <td>{scores.homeTeam} : {scores.awayTeam}</td>
                                 <td>{game.awayTeam.name}</td>
-                                {/*<td>{CountThePoints(game.homeTeam)}</td>*/}
-                                {/*<td>{GoalDifference(game.homeTeam)}</td>*/}
+
 
                             </tr>
                         );

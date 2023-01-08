@@ -1,12 +1,13 @@
 import React from "react";
-
+//לא לשים אסינכרוני
 function CountTheResult(goals) {
     console.log("countTheResult");
+    debugger;
     let homeTeamScore = 0;
     let awayTeamScore = 0;
     try {
-        if(goals.length > 0) {
-            goals.forEach((goal) => {
+        if (goals.length > 0) {
+             goals.forEach((goal) => {
                 console.log("forEach");
                 if (goal.home === true) {
                     homeTeamScore++;
@@ -21,6 +22,6 @@ function CountTheResult(goals) {
     } catch (e) {
         console.log(e);
     }
-    return { homeTeam: homeTeamScore, awayTeam: awayTeamScore };
+    return {homeTeam: homeTeamScore, awayTeam: awayTeamScore};
 }
 export default CountTheResult;

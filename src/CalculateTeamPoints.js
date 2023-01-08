@@ -1,30 +1,30 @@
 import React from "react";
 import CountTheResult from "./CountTheResult";
 
- function CountThePoints(team) {
+ async function CountThePoints(team) {
     debugger;
     console.log("countThePoints");
     let points = 0;
     try {
         if (team.length > 0) {
-              team.forEach((game) => {
+              for (const game of team) {
                 console.log("forEach");
                 if (game.homeTeam.id === team.id) {
-                    let scores = CountTheResult(game.goals);
+                    let scores = await CountTheResult(game.goals);
                     if (scores.homeTeam > scores.awayTeam) {
                         points += 3;
                     } else if (scores.homeTeam === scores.awayTeam) {
                         points += 1;
                     }
                 } else if (game.awayTeam.id === team.id) {
-                    let scores = CountTheResult(game.goals);
+                    let scores = await CountTheResult(game.goals);
                     if (scores.homeTeam < scores.awayTeam) {
                         points += 3;
                     } else if (scores.homeTeam === scores.awayTeam) {
                         points += 1;
                     }
                 }
-            });
+            }
         }
     } catch (e) {
         console.log(e);

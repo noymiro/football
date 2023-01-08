@@ -2,10 +2,8 @@ import React from "react";
 import axios from "axios";
 import TeamPlayers from "./TeamPlayers";
 import HistoryGames from "./HistoryGames";
-import historyGames from "./HistoryGames";
 import CountThePoints from "./CalculateTeamPoints";
 import HistoryGamesApi from "./HistoryGamesApi";
-import GoalDifference from "./GoalDifference";
 
 const api = "https://app.seker.live/fm1"
 
@@ -13,16 +11,15 @@ const api = "https://app.seker.live/fm1"
 class LeagueTable extends React.Component {
 
     state = {
-        data: [
-            {
-                idTeam: 0,
-                idLeague: 0,
-                showTableOfPlayers: false,
-                showTableOfHistoryGames: false,
-                historyGames: [],
-            }
-        ],
-
+        data: [],
+        idTeam: 0,
+        idLeague: 0,
+        showTableOfPlayers: false,
+        showTableOfHistoryGames: false,
+        historyGames: [],
+        points: [],
+        diffGoals: 0,
+        score: 0,
 
 
     }
@@ -30,11 +27,13 @@ class LeagueTable extends React.Component {
     constructor(props) {
         super(props);
 
+
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.id !== prevProps.id) {
             this.inputTablesFromApi();
+            this.calcGoalDifference(this.props.id);
             // this.crateTdOfPoints();
             // this.createObject();
         }
@@ -53,15 +52,85 @@ class LeagueTable extends React.Component {
             )
 
     }
+    getHistoryOfAllTeams = async (leagueId) => {
+        const historyOfAllTeams = [];
+        const response = await axios.get(api + '/teams/' + leagueId);
+        console.log(response.data + " response.data" + response.data.length);
+        for (const team of response.data) {
+            const history = await HistoryGamesApi(leagueId, team.id);
+            historyOfAllTeams.push(history);
+        }
+        return historyOfAllTeams;
+    }
 
-    // crateTdOfPoints = async (teamId) => {
-    //         console.log(this.props.id + "proId " + teamId + " teamId" + " crateTdOfPoints");
-    //         await this.setState({
-    //             ...this.state,
-    //             historyGames: HistoryGamesApi(1, 180),
-    //         })
-    //
-    // }
+    crateTdOfPoints = async () => {
+        debugger;
+        console.log(this.state.historyGames + " crateTdOfPoints");
+        let points = [];
+        let arrayOfHistoryGames = await this.getHistoryOfAllTeams(this.props.id);
+        console.log(arrayOfHistoryGames + " arrayOfHistoryGames");
+        if (arrayOfHistoryGames.length > 0) {
+            arrayOfHistoryGames.map((team) => {
+                team.map((game) => {
+                    points.push(CountThePoints(game));
+
+                })
+            })
+        }
+        console.log(points + " points");
+        this.setState({
+            ...this.state,
+            points: points,
+        })
+
+
+    }
+
+    calcGoalDifference = (leagueId) => {
+        axios.get(`${api}/teams/${leagueId}`).then((teams) => {
+            teams.data.forEach(team => {
+                axios.get(`${api}/history/${team.league.id}/${team.id}`).then(res => {
+                    let diffGoals = 0;
+                    let score = 0;
+                    res.data.forEach(game => {
+                        let home = game.awayTeam.id !== team.id;
+                        let result = 0;
+                        game.goals.forEach(goal => {
+                            goal.home !== home ? result-- : result++;
+                        });
+                        if (result > 0) score += 3;
+                        else if (result === 0) score += 1;
+                        diffGoals += result;
+                    });
+                    this.setState(prevState => {
+                        const updatedData = prevState.data.map(t => {
+                            if (t.id === team.id) {
+                                return {
+                                    ...t,
+                                    name: team.name,
+                                    diffGoals: diffGoals,
+                                    score: score,
+                                };
+                            }
+                            return t;
+                        });
+                        const sortedData = updatedData.sort((a, b) => {
+                            if (b.score === a.score) {
+                                return b.diffGoals - a.diffGoals;
+                            }
+                            return b.score - a.score;
+                        });
+                        return {
+                            ...prevState,
+                            data: sortedData,
+                        };
+                    });
+                });
+            });
+        });
+    };
+
+
 
 
 
@@ -74,19 +143,7 @@ class LeagueTable extends React.Component {
 
 
         })
-        //
-        // if (string === "players") {
-        //     this.setState({
-        //         ...this.state,
-        //         showTableOfPlayers: true,
-        //     })
-        // }
-        // if (string === "history") {
-        //     this.setState({
-        //         ...this.state,
-        //         showTableOfHistoryGames: true,
-        //     })
-        // }
+
 
     }
 
@@ -103,54 +160,63 @@ class LeagueTable extends React.Component {
                         <th>Goal difference</th>
 
                     </tr>
-                    {this.state.data.map( (team, index) => {
-                        // {this.crateTdOfPoints(team.id)}
+                    {this.state.data.map((team, index) => {
                         return (
-                                <tr>
-                                    <tr className={((index === 0) ? "top" : ((index >= (20 - 3)) ? "lower" : ""))}>
-                                        <td>{index + 1}</td>
-                                        <td>{team.name} </td>
-                                    </tr>
-                                    <td>
-
-                                        <button onClick={() => this.changeIdTeamAndIdLeague(team )}> Show details</button>
-                                        {/*<button onClick={() => this.changeIdTeamAndIdLeague(team )}> Show history*/}
-                                        {/*    games*/}
-                                        {/*</button>*/}
-                                    </td>
-                                    {/*<td>*/}
-                                    {/*    {CountThePoints(team.id, this.props.id)}*/}
-                                    {/*/!*<td>{team.goalDifference}</td>*!/*/}
-                                    {/*/!*אפשר לשחק עם השורות והעמודות בטבלה כדי להציג את זה לצד הכיתוב ולא מתחת*!/*/}
-
-                                    {/*</td>*/}
-                                    {/*<td>*/}
-                                    {/*    {GoalDifference(team.id, this.props.id)}*/}
-                                    {/*</td>*/}
-
+                            <tr>
+                                <tr className={((index === 0) ? "top" : ((index >= (20 - 3)) ? "lower" : ""))}>
+                                    <td>{index + 1}</td>
+                                    <td>{team.name} </td>
                                 </tr>
-                            )
-                        }
-                    )}
-                    {/*{this.state.historyGames.map((team, index) => {*/}
-                    {/*    return (*/}
-                    {/*    <td>{CountThePoints(team)}</td>*/}
-                    {/*    )*/}
-                    {/*})}*/}
+                                <td>
+                                    <button onClick={() => this.changeIdTeamAndIdLeague(team)}> Show details</button>
+                                </td>
+                                <td>{team.score}</td>
+                                <td>{team.diffGoals}</td>
+                            </tr>
+                        );
+                    })}
 
                 </table>
-
-
-                {/*{this.state.showTable? true :  <TeamPlayers idLeague={this.state.idLeague} idTeam={this.state.idTeam} />}*/}
-                {/*{this.state.showTableOfPlayers ? true : <TeamPlayers idLeague={this.state.idLeague} idTeam={this.state.idTeam}/>}*/}
-                {/*{this.state.showTableOfHistoryGames ? true : <HistoryGames idLeague={this.state.idLeague} idTeam={this.state.idTeam}/>}*/}
-
-                <TeamPlayers idLeague={this.state.idLeague} idTeam={this.state.idTeam}/>
-                <HistoryGames idLeague={this.state.idLeague} idTeam={this.state.idTeam}/>
-
+                <div>
+                    {this.state.idTeam !== 0 && this.state.idLeague !== 0 ?
+                        <TeamPlayers idTeam={this.state.idTeam} idLeague={this.state.idLeague}/> : null}
+                </div>
+                <div>
+                    {this.state.idTeam !== 0 && this.state.idLeague !== 0 ?
+                        <HistoryGames idTeam={this.state.idTeam} idLeague={this.state.idLeague}/> : null}
+                </div>
             </div>
         )
     }
+
+    // <td>{this.state.score}</td>
+    // <td>{this.state.diffGoals}</td>
+
+    //
+    //                             </tr>
+    //                         )
+    //                     }
+    //                 )}
+    //                 {/*{this.state.historyGames.map((team, index) => {*/}
+    //                 {/*    return (*/}
+    //                 {/*    <td>{CountThePoints(team)}</td>*/}
+    //                 {/*    )*/}
+    //                 {/*})}*/}
+    //
+    //             </table>
+    //
+    //
+    //             {/*{this.state.showTable? true :  <TeamPlayers idLeague={this.state.idLeague} idTeam={this.state.idTeam} />}*/}
+    //             {/*{this.state.showTableOfPlayers ? true : <TeamPlayers idLeague={this.state.idLeague} idTeam={this.state.idTeam}/>}*/}
+    //             {/*{this.state.showTableOfHistoryGames ? true : <HistoryGames idLeague={this.state.idLeague} idTeam={this.state.idTeam}/>}*/}
+    //
+    //             <TeamPlayers idLeague={this.state.idLeague} idTeam={this.state.idTeam}/>
+    //             <HistoryGames idLeague={this.state.idLeague} idTeam={this.state.idTeam}/>
+    //
+    //         </div>
+    //     )
+    // }
 }
 
 export default LeagueTable;
+

@@ -11,6 +11,7 @@ class HistoryPage extends React.Component {
         leagueId: 0,
         roundMin: 0,
         roundMax: 0,
+        nameOfLeague: "",
     };
     componentDidMount() {
 
@@ -24,6 +25,7 @@ class HistoryPage extends React.Component {
 
             arrayOfRounds: [...this.state.arrayOfRounds, response.data],
         });
+        this.extractTheLeagueName();
     };
 
     selectRangeOfRounds = async (leagueId, roundMin, roundMax) => {
@@ -33,26 +35,50 @@ class HistoryPage extends React.Component {
         }
     };
 
+    extractTheLeagueName = async () => {
+        debugger;
+        const historyGames = this.state.arrayOfRounds;
+        let leagueName = historyGames.map((game) => {
+            return game.map((game) => {
+                return game.homeTeam.league.name + " " + game.homeTeam.league.id + " ";
+            });
+        })
+        console.log(leagueName);
+        this.setState({
+                nameOfLeague: leagueName,
+            }
+        )
+    }
+
+    popup = (message) => {
+        alert(message);
+    }
+    windowReload = () => {
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
+
+    }
 
     render() {
         return (
             <div>
                 <h1>HistoryPage</h1>
 
-                <h2 id={"h2 LeagueId"}>LeagueId: {this.props.idLeague}</h2>
+                <h2
+                    id={"h2 LeagueId"}>League name: {this.state.nameOfLeague}</h2>
                 <input
                     type="number"
                     onChange={(e) => {
                         let value = e.target.value;
-                        if (value <= 0) {
-                            value = 1;
-                        } if(value > this.state.arrayOfRounds.length){
-                            value = this.state.arrayOfRounds.length
+                        if(value > 0) {
+                            this.setState({
+                                leagueId: value,
+                            });
+                        }else {
+                            this.popup("LeagueId must be a positive number");
+                            this.windowReload();
                         }
-                        this.setState({
-                            leagueId: e.target.value,
-
-                        });
                     }}
                 />
                 <h2 id={"h2 Round Min"}>Round Min</h2>
@@ -82,14 +108,17 @@ class HistoryPage extends React.Component {
                         });
                     }}
                 />
-                <button
-                    onClick={() => {
-                        this.selectRangeOfRounds(
-                            this.state.leagueId,
-                            this.state.roundMin,
-                            this.state.roundMax
-                        );
-                    }}
+                <button disabled={this.state.roundMin === 0 || this.state.roundMax === 0 || this.state.leagueId === 0
+                    || this.state.roundMin > this.state.roundMax || this.state.leagueId < 1 || this.state.roundMin < 0 || this.state.roundMax < 0}
+                        onClick={() => {
+                            this.selectRangeOfRounds(
+                                this.state.leagueId,
+                                this.state.roundMin,
+                                this.state.roundMax
+                            );
+
+                        }}
+
                 >
                     HistoryPage
                 </button>
@@ -121,7 +150,7 @@ class HistoryPage extends React.Component {
                     </table>
 
 
-                    )}
+                )}
             </div>
         );
     }

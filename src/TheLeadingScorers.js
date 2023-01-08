@@ -18,7 +18,6 @@ class TheLeadingScorers extends React.Component {
 
 
     componentDidMount() {
-        // fetch the list of leagues here and store them in the state
         this.fetchLeagues();
     }
 
@@ -71,14 +70,11 @@ class TheLeadingScorers extends React.Component {
     }
 
     render() {
-        // render in a table the top 3 scorers
         return (
             <div>
                 <h1>TheLeadingScorers</h1>
                 <h2 id={"h2 LeagueId"}>LeagueId: {this.props.idLeague}</h2>
                 <Selection onEnter={this.getLeadingScorers} />
-
-
                 <table id = "tableOfScorer">
                     <thead>
                     <tr>

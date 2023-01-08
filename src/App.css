@@ -3,7 +3,7 @@ div[id="App"] {
     font-family: sans-serif;
     text-align: center;
     width: 1500px;
-    height: 700px;
+    height: 3000px;
     background: url("FOOTBALL.jpg") center;
 
 }
@@ -15,11 +15,8 @@ div[id="welcome"]{
 }
 
 .nav {
-
-
     margin-right: auto;
     display: flex;
-    /*justify-content: space-between;*/
     align-items: center;
     padding: 0 20px;
     background-color: black;
@@ -29,7 +26,6 @@ div[id="welcome"]{
     top: 0;
     left: 0;
     z-index: 100;
-
 
 }
 
@@ -83,7 +79,7 @@ table[class="Countries"] {
     z-index: 100;
 }
 .LeagueTable {
-    /*float: left;*/
+
     text-align: center;
     margin: 0 auto;
     border-spacing: 0px 0px;
@@ -100,7 +96,6 @@ table[class="Countries"] {
 .LeagueTable th {
     padding-top: 12px;
     padding-bottom: 12px;
-    /*text-align: left;*/
     background-color: #4caf50;
     color: white;
     display: inline-block;
@@ -138,7 +133,10 @@ td[id = "location"]{
     left: 0;
     z-index: 100;
 }
-
+table{
+    color: burlywood;
+    background-color: black ;
+}
 
 table[id = "leagueTab"] {
     border-collapse: collapse;

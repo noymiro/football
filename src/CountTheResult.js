@@ -1,5 +1,5 @@
 import React from "react";
-//לא לשים אסינכרוני
+
 function CountTheResult(goals) {
     console.log("countTheResult");
     debugger;

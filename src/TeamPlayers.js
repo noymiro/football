@@ -1,7 +1,5 @@
 import React from "react";
 import axios from "axios";
-import TablesPage from "./TablesPage";
-import LeagueTable from "./LeagueTable";
 const api = "https://app.seker.live/fm1"
 
 
@@ -12,11 +10,6 @@ class TeamPlayers extends React.Component {
     constructor(props) {
         super(props);
     }
-
-    // componentDidMount() {
-    //     console.log(this.props.idTeam + " idTeam");
-    //     this.teamPlayersApi();
-    // }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         console.log(this.props.idTeam + "? idTeam " + this.props.idLeague + "? idLeague");

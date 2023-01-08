@@ -21,7 +21,7 @@ class HistoryPage extends React.Component {
         const url = api + "/round/" + leagueId + "/" + round;
         const response = await axios.get(url);
         this.setState({
-            // ...this.state,
+
             arrayOfRounds: [...this.state.arrayOfRounds, response.data],
         });
     };
@@ -33,40 +33,18 @@ class HistoryPage extends React.Component {
         }
     };
 
-//     max = (event) => {
-//         const number = (event.target.value * 1);
-//         if ((this.state.leaguesHistory.length > number) && (1 <= number) && (this.state.min <= number)) {
-//             this.setState({
-//                 roundMax: number
-//             })
-//         }
-//     }
-//
-// min = (event) => {
-//     const number = (event.target.value * 1);
-//     if ((1 <= number) && (this.state.leaguesHistory.length > number) && (number <= this.state.max)){
-//     this.setState({
-//                       roundMin: number
-//                   })
-// }
-// }
-    // 2 פונקציות להביא את הMIN ואת הMAX
 
     render() {
         return (
             <div>
                 <h1>HistoryPage</h1>
-                {/*<Selection onEnter={this.historyRoundGames()}/> להסתכל כאן = > */}
-
 
                 <h2 id={"h2 LeagueId"}>LeagueId: {this.props.idLeague}</h2>
                 <input
                     type="number"
                     onChange={(e) => {
                         this.setState({
-                            // ...this.state,
                             leagueId: e.target.value,
-
 
                         });
                     }}
@@ -115,10 +93,8 @@ class HistoryPage extends React.Component {
                             <th>Away Team</th>
                         </tr>
                         {this.state.arrayOfRounds.map((item, index) => {
-                            // לשים Data
                             return item.map((game, index) => {
-                                // להוריד את זה
-                                const scores = CalculatGoals(game.goals); //לשנות לitem
+                                const scores = CalculatGoals(game.goals);
                                 return (
                                     <tr key={index}>
                                         <td>{game.round}</td>

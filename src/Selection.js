@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import HistoryPage from "./HistoryPage";
 
 class Selection extends Component {
 

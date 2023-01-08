@@ -19,22 +19,12 @@ class StatisticsPage extends React.Component {
 
     }
 
-    // constructor(props) {
-    //     super(props);
-    // }
-
-    // componentDidMount() {
-    //     this.getUrlOfLeague(1)
-    //
-    // }
-
     getUrlOfLeague = async (leagueId) => {
         console.log(leagueId + " getUrlOfLeague");
         const url = api + "/history/" + leagueId;
         console.log(url);
         const response = await axios.get(url);
         this.setState({
-            // ...this.state,
             data: response.data,
         })
         if (this.state.data.length > 0) {
@@ -51,12 +41,11 @@ class StatisticsPage extends React.Component {
         const firstHalfGoals = [];
         const secondHalfGoals = [];
         const mapOfRounds = new Map();
-        // const mapGoalsPerRound = new Map;
         let round = 1;
         let counter = 0;
         if (arrayOfGames.length > 0) {
             arrayOfGames.map((game) => {
-                // try {
+
                 game.goals.map((goal) => {
 
                         if (goal !== undefined) {
@@ -86,17 +75,11 @@ class StatisticsPage extends React.Component {
             mapOfRounds: mapOfRounds,
         })
 
-        // if (this.state.mapOfRounds !== undefined) {
-
         setTimeout(() => {
                 this.theSmallestAndTheLargestGoal(firstHalfGoals, secondHalfGoals);
                 this.getTheRoundOfTheMostAndLeastGoals(mapOfRounds);
             }
             , 1000);
-
-
-
-        // }
     }
 
     theSmallestAndTheLargestGoal = async (firstHalf , secondHalf) => {
@@ -176,7 +159,6 @@ class StatisticsPage extends React.Component {
             <div>
                 <div>
                     <Selection onEnter={this.getUrlOfLeague} />
-
                 </div>
                 <h1>Statistics</h1>
                 <h2 className={"statistic"}>Goals in the first half {this.state.firstHalfGoals.length}</h2>

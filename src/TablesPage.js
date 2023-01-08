@@ -1,8 +1,6 @@
 import React from 'react';
 import axios from "axios";
 import LeagueTable from "./LeagueTable";
-import HistoryGamesApi from "./HistoryGamesApi";
-
 const api = "https://app.seker.live/fm1"
 
 class TablePage extends React.Component {
@@ -39,9 +37,6 @@ class TablePage extends React.Component {
         });
 
     }
-
-
-
     render() {
         return (
             <div>

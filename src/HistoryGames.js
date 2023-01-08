@@ -1,9 +1,6 @@
 import React from "react";
 import CalculatGoals from "./CountTheResult";
 import HistoryGamesApi from "./HistoryGamesApi";
-
-
-
 const api = "https://app.seker.live/fm1"
 
 class HistoryGames extends React.Component {
@@ -18,8 +15,6 @@ class HistoryGames extends React.Component {
     constructor(props) {
         super(props);
     }
-
-
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.idTeam !== prevProps.idTeam || this.props.idLeague !== prevProps.idLeague) {
             this.setHistoryGames();
@@ -49,7 +44,6 @@ class HistoryGames extends React.Component {
                         <th>Home team</th>
                         <th>Score</th>
                         <th>Away team</th>
-                        {/*<th>Team points</th>*/}
                     </tr>
                     <tbody>
                     {this.state.historyGames.map((game, index) => {

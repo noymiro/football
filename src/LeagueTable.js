@@ -2,8 +2,6 @@ import React from "react";
 import axios from "axios";
 import TeamPlayers from "./TeamPlayers";
 import HistoryGames from "./HistoryGames";
-import CountThePoints from "./CalculateTeamPoints";
-import HistoryGamesApi from "./HistoryGamesApi";
 
 const api = "https://app.seker.live/fm1"
 
@@ -34,8 +32,6 @@ class LeagueTable extends React.Component {
         if (this.props.id !== prevProps.id) {
             this.inputTablesFromApi();
             this.calcGoalDifference(this.props.id);
-            // this.crateTdOfPoints();
-            // this.createObject();
         }
     }
 
@@ -50,39 +46,6 @@ class LeagueTable extends React.Component {
                     })
                 }
             )
-
-    }
-    getHistoryOfAllTeams = async (leagueId) => {
-        const historyOfAllTeams = [];
-        const response = await axios.get(api + '/teams/' + leagueId);
-        console.log(response.data + " response.data" + response.data.length);
-        for (const team of response.data) {
-            const history = await HistoryGamesApi(leagueId, team.id);
-            historyOfAllTeams.push(history);
-        }
-        return historyOfAllTeams;
-    }
-
-    crateTdOfPoints = async () => {
-        debugger;
-        console.log(this.state.historyGames + " crateTdOfPoints");
-        let points = [];
-        let arrayOfHistoryGames = await this.getHistoryOfAllTeams(this.props.id);
-        console.log(arrayOfHistoryGames + " arrayOfHistoryGames");
-        if (arrayOfHistoryGames.length > 0) {
-            arrayOfHistoryGames.map((team) => {
-                team.map((game) => {
-                    points.push(CountThePoints(game));
-
-                })
-            })
-        }
-        console.log(points + " points");
-        this.setState({
-            ...this.state,
-            points: points,
-        })
-
 
     }
 
@@ -131,22 +94,14 @@ class LeagueTable extends React.Component {
     };
 
 
-
-
-
     changeIdTeamAndIdLeague = (team) => {
         console.log(team.id + " item !" + this.props.id + " idLeague !");
         this.setState({
             ...this.state,
             idTeam: team.id,
             idLeague: this.props.id,
-
-
         })
-
-
     }
-
 
     render() {
         return (
@@ -158,7 +113,6 @@ class LeagueTable extends React.Component {
                         <th>Options</th>
                         <th>Team Scores</th>
                         <th>Goal difference</th>
-
                     </tr>
                     {this.state.data.map((team, index) => {
                         return (
@@ -188,34 +142,6 @@ class LeagueTable extends React.Component {
             </div>
         )
     }
-
-    // <td>{this.state.score}</td>
-    // <td>{this.state.diffGoals}</td>
-
-    //
-    //                             </tr>
-    //                         )
-    //                     }
-    //                 )}
-    //                 {/*{this.state.historyGames.map((team, index) => {*/}
-    //                 {/*    return (*/}
-    //                 {/*    <td>{CountThePoints(team)}</td>*/}
-    //                 {/*    )*/}
-    //                 {/*})}*/}
-    //
-    //             </table>
-    //
-    //
-    //             {/*{this.state.showTable? true :  <TeamPlayers idLeague={this.state.idLeague} idTeam={this.state.idTeam} />}*/}
-    //             {/*{this.state.showTableOfPlayers ? true : <TeamPlayers idLeague={this.state.idLeague} idTeam={this.state.idTeam}/>}*/}
-    //             {/*{this.state.showTableOfHistoryGames ? true : <HistoryGames idLeague={this.state.idLeague} idTeam={this.state.idTeam}/>}*/}
-    //
-    //             <TeamPlayers idLeague={this.state.idLeague} idTeam={this.state.idTeam}/>
-    //             <HistoryGames idLeague={this.state.idLeague} idTeam={this.state.idTeam}/>
-    //
-    //         </div>
-    //     )
-    // }
 }
 
 export default LeagueTable;

@@ -8,19 +8,12 @@ import HistoryPage from "./HistoryPage";
 import StatisticsPage from "./StatisticsPage";
 
 
-
-
-// const apiToken = "p0uG2AMTEGPaZVZ3O0eQRxRnbh46QY2gCYtI0ie2ryqjf9yFMG552X6UZXyc"
-
 const navLinkStyle = ({isActive}) => isActive ? {
     color: "white",
     backgroundColor: "red",
     margin: 50,
     align: "center" ,
     column : "center"
-
-
-
 } : undefined;
 
 
@@ -51,7 +44,6 @@ class App extends React.Component {
             </div>
         );
     }
-
 
 }
 
